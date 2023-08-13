@@ -1,30 +1,64 @@
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
-    const randomIndex = Math.floor(Math.random() * 3);  // random number between 0, 1, or 2
+    const randomIndex = Math.floor(Math.random() * 3);
     return choices[randomIndex];
 }
 
 function playRound(playerSelection, computerSelection) {
-    // Make the playerSelection case-insensitive
     playerSelection = playerSelection.toLowerCase();
 
     if (playerSelection === computerSelection.toLowerCase()) {
-        return "It's a draw!";
+        return "draw";
     }
 
     switch (playerSelection) {
         case 'rock':
-            return computerSelection === 'Scissors' ? 'You Win! Rock beats Scissors' : 'You Lose! Paper beats Rock';
+            return computerSelection === 'Scissors' ? 'win' : 'lose';
         case 'paper':
-            return computerSelection === 'Rock' ? 'You Win! Paper beats Rock' : 'You Lose! Scissors beats Paper';
+            return computerSelection === 'Rock' ? 'win' : 'lose';
         case 'scissors':
-            return computerSelection === 'Paper' ? 'You Win! Scissors beats Paper' : 'You Lose! Rock beats Scissors';
+            return computerSelection === 'Paper' ? 'win' : 'lose';
         default:
-            return "Invalid choice";  // If the player enters something other than rock, paper, or scissors
+            return "invalid";
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(computerSelection);
-console.log(playRound(playerSelection, computerSelection));
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 5; i++) {
+        const playerChoice = prompt("Choose Rock, Paper or Scissors:");
+        const computerChoice = getComputerChoice();
+        
+        const result = playRound(playerChoice, computerChoice);
+        
+        switch (result) {
+            case 'win':
+                playerScore++;
+                console.log(`You Win! ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)} beats ${computerChoice}`);
+                break;
+            case 'lose':
+                computerScore++;
+                console.log(`You Lose! ${computerChoice} beats ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)}`);
+                break;
+            case 'draw':
+                console.log("It's a draw!");
+                break;
+            default:
+                console.log("Invalid choice");
+                i--;  // If the player enters something other than rock, paper, or scissors, let them choose again
+        }
+    }
+
+    if (playerScore > computerScore) {
+        console.log(`You win the game! Score: ${playerScore} to ${computerScore}`);
+    } else if (playerScore < computerScore) {
+        console.log(`You lose the game! Score: ${playerScore} to ${computerScore}`);
+    } else {
+        console.log(`The game is a draw! Score: ${playerScore} to ${computerScore}`);
+    }
+}
+
+// Start the game
+game();
