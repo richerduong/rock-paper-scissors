@@ -23,42 +23,53 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
+function game(playerChoice) {
     let playerScore = 0;
     let computerScore = 0;
 
-    for (let i = 0; i < 5; i++) {
-        const playerChoice = prompt("Choose Rock, Paper or Scissors:");
+    //for (let i = 0; i < 5; i++) {
         const computerChoice = getComputerChoice();
-        
         const result = playRound(playerChoice, computerChoice);
+
+        const resultDiv = document.getElementById('result');
+        const scoreDiv = document.getElementById('score');
         
         switch (result) {
             case 'win':
                 playerScore++;
-                console.log(`You Win! ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)} beats ${computerChoice}`);
+                resultDiv.textContent = `You Win! ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)} beats ${computerChoice}`;
                 break;
             case 'lose':
                 computerScore++;
-                console.log(`You Lose! ${computerChoice} beats ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)}`);
+                resultDiv.textContent = `You Lose! ${computerChoice} beats ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)}`;
                 break;
             case 'draw':
-                console.log("It's a draw!");
+                resultDiv.textContent = "It's a draw!";
                 break;
             default:
-                console.log("Invalid choice");
-                i--;  // If the player enters something other than rock, paper, or scissors, let them choose again
+                resultDiv.textContent = "Invalid choice";
+                //i--;  // If the player enters something other than rock, paper, or scissors, let them choose again
         }
-    }
+    //}
 
     if (playerScore > computerScore) {
-        console.log(`You win the game! Score: ${playerScore} to ${computerScore}`);
+        scoreDiv.textContent = `You win the game! Score: ${playerScore} to ${computerScore}`;
     } else if (playerScore < computerScore) {
-        console.log(`You lose the game! Score: ${playerScore} to ${computerScore}`);
+        scoreDiv.textContent = `You lose the game! Score: ${playerScore} to ${computerScore}`;
     } else {
-        console.log(`The game is a draw! Score: ${playerScore} to ${computerScore}`);
+        scoreDiv.textContent = `The game is a draw! Score: ${playerScore} to ${computerScore}`;
     }
 }
 
-// Start the game
-game();
+// Event listeners for each button
+document.getElementById('rock').addEventListener('click', function() {
+    game('rock');
+});
+
+document.getElementById('paper').addEventListener('click', function() {
+    game('paper');
+});
+
+document.getElementById('scissors').addEventListener('click', function() {
+    game('scissors');
+});
